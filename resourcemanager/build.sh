@@ -1,3 +1,5 @@
 #!/bin/sh
+REPO=${1-uhopper}
+TAG=${2-2.7.2}
 
-docker build -t uhopper/hadoop-resourcemanager .
+docker build -t ${REPO}/hadoop-resourcemanager:${TAG} --build-arg REPO=${REPO} --build-arg TAG=${TAG} .
