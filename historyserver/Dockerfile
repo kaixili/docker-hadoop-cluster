@@ -1,5 +1,5 @@
 ARG REPO=uhopper
-ARG TAG=2.7.2
+ARG TAG=2.8.1
 FROM ${REPO}/hadoop:${TAG}
 
 
