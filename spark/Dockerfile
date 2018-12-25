@@ -2,9 +2,10 @@ ARG REPO=uhopper
 ARG TAG=2.8.5
 FROM ${REPO}/hadoop:${TAG}
 
-ENV SPARK_VERSION 2.1.2
+ENV SPARK_VERSION 2.4.0
 
-ENV SPARK_BIN_URL https://www.apache.org/dist/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-without-hadoop.tgz
+ARG SPARK_DOWNLOAD_URL=https://www.apache.org/dist/spark
+ENV SPARK_BIN_URL $SPARK_DOWNLOAD_URL/spark-$SPARK_VERSION/spark-$SPARK_VERSION-bin-without-hadoop.tgz
 
 ENV SPARK_HOME=/opt/spark-$SPARK_VERSION
 
