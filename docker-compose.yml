@@ -1,7 +1,7 @@
 version: '2.0'
 services:
   namenode:
-    image: uhopper/hadoop-namenode
+    image: lkx810/hadoop-namenode:2.8.5
     hostname: namenode
     container_name: namenode
     ports:
@@ -14,9 +14,8 @@ services:
     environment:
       - CLUSTER_NAME=hadoop
 
-
   resourcemanager:
-    image: uhopper/hadoop-resourcemanager
+    image: lkx810/hadoop-resourcemanager:2.8.5
     hostname: resourcemanager
     container_name: resourcemanager
     ports:
@@ -28,11 +27,19 @@ services:
       - namenode
       - datanode1
       - datanode2
+      - historyserver
+    env_file:
+      - ./hadoop.env
+
+  historyserver:
+    image: lkx810/hadoop-historyserver:2.8.5
+    hostname: historyserver
+    container_name: historyserver
     env_file:
       - ./hadoop.env
 
   nodemanager1:
-    image: uhopper/hadoop-nodemanager
+    image: lkx810/hadoop-nodemanager:2.8.5
     hostname: nodemanager1
     container_name: nodemanager1
     depends_on:
@@ -43,7 +50,7 @@ services:
       - ./hadoop.env
 
   datanode1:
-    image: uhopper/hadoop-datanode
+    image: lkx810/hadoop-datanode:2.8.5
     hostname: datanode1
     container_name: datanode1
     ports:
@@ -56,7 +63,7 @@ services:
       - ./hadoop.env
 
   datanode2:
-    image: uhopper/hadoop-datanode
+    image: lkx810/hadoop-datanode:2.8.5
     hostname: datanode2
     container_name: datanode2
     depends_on:
