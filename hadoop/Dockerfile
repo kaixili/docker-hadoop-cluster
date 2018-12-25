@@ -1,6 +1,11 @@
 FROM debian:jessie-backports
 
-RUN apt-get update \
+#ARG MIRRORS=mirrors.tuna.tsinghua.edu.cn
+ARG MIRRORS=deb.debian.org
+
+RUN sed -i "s/deb.debian.org/$MIRRORS/g" /etc/apt/sources.list \
+    && sed -ir "s/deb.debian.org/$MIRRORS/g" /etc/apt/sources.list.d/* \
+    && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y -t jessie-backports --no-install-recommends  openjdk-8-jre-headless ca-certificates-java \
     && rm -rf /var/lib/apt/lists/*
     
@@ -40,12 +45,17 @@ RUN gpg --keyserver pool.sks-keyservers.net --recv-keys \
     0445B7BFC4515847C157ECD16BA72FF1C99785DE \
     B74F188889D159F3D7E64A7F348C6D7A0DCED714 \
     4A6AC5C675B6155682729C9E08D51A0A7501105C \
-    8B44A05C308955D191956559A5CEE20A90348D47 
+    8B44A05C308955D191956559A5CEE20A90348D47 \
+    F05DF6500A0219227B566990C1EDBB9CA400FD50 \
+    5851C913A22D23E69B47FA66B5AD1CE552293533
 
-ARG HADOOP_VERSION=2.8.1
-ENV HADOOP_URL https://www.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
+
+ARG HADOOP_VERSION=2.8.5
+ARG HADOOP_DOWNLOAD_URL=https://www.apache.org/dist/hadoop/common
+ENV HADOOP_URL $HADOOP_DOWNLOAD_URL/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz
 RUN curl -fSL "$HADOOP_URL" -o /tmp/hadoop.tar.gz \
-    && curl -fSL "$HADOOP_URL.asc" -o /tmp/hadoop.tar.gz.asc \
+    && curl -fSL "https://www.apache.org/dist/hadoop/common/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz.asc" \
+        -o /tmp/hadoop.tar.gz.asc \
     && gpg --verify /tmp/hadoop.tar.gz.asc \
     && tar -xvf /tmp/hadoop.tar.gz -C /opt/ \
     && rm /tmp/hadoop.tar.gz* \

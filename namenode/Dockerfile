@@ -1,5 +1,5 @@
 ARG REPO=uhopper
-ARG TAG=2.8.1
+ARG TAG=2.8.5
 FROM ${REPO}/hadoop:${TAG}
 
 ENV HDFS_CONF_dfs_namenode_name_dir=file:///hadoop/dfs/name

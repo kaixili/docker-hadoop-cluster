@@ -1,6 +1,6 @@
 #!/bin/sh
 REPO=${1-uhopper}
-TAG=${2-2.8.1}
+TAG=${2-2.8.5}
 
 for i in hadoop namenode datanode resourcemanager nodemanager historyserver spark; do
     echo Building $i
