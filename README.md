@@ -1,4 +1,6 @@
-# Hadoop Docker
+# Hadoop Docker Cluster
+
+Changed from https://bitbucket.org/danhelfman/hadoop-docker
 
 This repository contains *Dockerfile*s for setting up a basic Hadoop cluster.
 The available components are:

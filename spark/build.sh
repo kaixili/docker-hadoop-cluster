@@ -1,5 +1,5 @@
 #!/bin/sh
-REPO=${1-uhopper}
+REPO=${1-lkx810}
 TAG=${2-2.8.5}
 SPARK_DOWNLOAD_URL=${5-https://mirrors.tuna.tsinghua.edu.cn/apache/spark}
 
