@@ -35,9 +35,9 @@ services:
     hostname: historyserver
     container_name: historyserver
     ports:
-      - "8188:8188"
-      - "19888:19888"
-      - "10020:10020"
+      - "8188:8188"         # historyserver log server web
+      - "19888:19888"       # mr jobhistory web
+      - "10020:10020"       # mr jobhistory ipc
     env_file:
       - ./hadoop.env
 
