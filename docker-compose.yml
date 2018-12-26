@@ -5,10 +5,12 @@ services:
     hostname: namenode
     container_name: namenode
     ports:
-      - "50070:50070"
-      - "8020:8020"
+      - "50070:50070"       # web
+      - "8020:8020"         # ipc
     volumes:
       - namenode:/hadoop/dfs/name
+    depends_on:
+      - historyserver
     env_file:
       - ./hadoop.env
     environment:
@@ -19,14 +21,11 @@ services:
     hostname: resourcemanager
     container_name: resourcemanager
     ports:
-      - "8088:8088"
-      - "8031:8031"
-      - "8032:8032"
-      - "8030:8030"
+      - "8088:8088"         # resourcemanager web
+      - "8030:8030"         # resourcemanager ipc
+      - "8031:8031"         # resourcemanager ipc
+      - "8032:8032"         # resourcemanager ipc
     depends_on:
-      - namenode
-      - datanode1
-      - datanode2
       - historyserver
     env_file:
       - ./hadoop.env
@@ -35,6 +34,10 @@ services:
     image: lkx810/hadoop-historyserver:2.8.5
     hostname: historyserver
     container_name: historyserver
+    ports:
+      - "8188:8188"
+      - "19888:19888"
+      - "10020:10020"
     env_file:
       - ./hadoop.env
 
@@ -42,8 +45,11 @@ services:
     image: lkx810/hadoop-nodemanager:2.8.5
     hostname: nodemanager1
     container_name: nodemanager1
+    ports:
+      - "8042:8042"
     depends_on:
       - namenode
+      - resourcemanager
       - datanode1
       - datanode2
     env_file:
@@ -53,10 +59,9 @@ services:
     image: lkx810/hadoop-datanode:2.8.5
     hostname: datanode1
     container_name: datanode1
-    ports:
-      - "50075:50075"
     depends_on:
       - namenode
+      - resourcemanager
     volumes:
       - datanode1:/hadoop/dfs/data
     env_file:
@@ -68,11 +73,13 @@ services:
     container_name: datanode2
     depends_on:
       - namenode
+      - resourcemanager
     volumes:
       - datanode2:/hadoop/dfs/data
     env_file:
       - ./hadoop.env
 
+# storage hadoop file
 volumes:
   namenode:
   datanode1:
